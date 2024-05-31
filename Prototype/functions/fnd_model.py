@@ -1,13 +1,22 @@
 import pickle
 import pandas as pd
 import re
+import os
 import scipy.sparse as sp
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Load the model
-xgb_model = pickle.load(open('models/xgboost_model.pkl', 'rb'))
+# Define the paths to the model and vectorizer files relative to the current script
+model_path = os.path.join(os.path.dirname(__file__), '..', 'models', 'xgboost_model.pkl')
+vectorizer_path = os.path.join(os.path.dirname(__file__), '..', 'models', 'tfidf_vectorizer.pkl')
 
-tfidf_vectorizer = pickle.load(open('models/tfidf_vectorizer.pkl', 'rb'))
+# Load the XGBoost model
+with open(model_path, 'rb') as model_file:
+    xgb_model = pickle.load(model_file)
+
+# Load the TF-IDF vectorizer
+with open(vectorizer_path, 'rb') as vectorizer_file:
+    tfidf_vectorizer = pickle.load(vectorizer_file)
 
 
 def predict_fnd(tweet_text, exclusivity, bot_score, cred_score, label_score):

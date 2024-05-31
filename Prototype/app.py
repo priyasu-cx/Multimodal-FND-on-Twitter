@@ -1,5 +1,6 @@
 import streamlit as st
 from functions.fnd_model import predict_fnd
+from functions.url_model import predict_url
 
 def main():
     # Set title and color theme
@@ -33,18 +34,29 @@ def main():
     # Add image upload
     uploaded_image = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
 
+    st.subheader("Check URL")
+    # Add text input for URL
+    url = st.text_input("URL", "Type here")
+
 
     # Add button to generate report
     if st.button("Generate Report"):
         # Perform fake news detection and generate report
         # Replace this with your own code to generate the report
         fnd_report = predict_fnd(tweet, exclusivity, bot_score, cred_score, label_score)
+        url_report = predict_url(url)
+    
 
         # Display the report
         if fnd_report == 1:
             st.write("This tweet is fake news.")
         else:
             st.write("This tweet is not fake news.")
+
+        if url_report == 1:
+            st.write("This URL is safe.")
+        else:
+            st.write("This URL is malicious.")
 
         st.write("Report generated!")
 
