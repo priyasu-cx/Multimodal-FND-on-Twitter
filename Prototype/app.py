@@ -54,9 +54,9 @@ def main():
             st.write("This tweet is not fake news.")
 
         if url_report == 1:
-            st.write("This URL is safe.")
-        else:
             st.write("This URL is malicious.")
+        else:
+            st.write("This URL is safe.")
 
         st.write("Report generated!")
 

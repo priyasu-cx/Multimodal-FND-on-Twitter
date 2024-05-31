@@ -129,6 +129,8 @@ def web_traffic(domain):
         return -1
     if rank > 100000:
         return 1
+    elif rank == 0:
+        return 1
     else:
         return 0
 
