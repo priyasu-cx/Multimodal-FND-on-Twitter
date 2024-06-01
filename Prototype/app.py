@@ -83,13 +83,18 @@ def main():
         # Display the image report
         if uploaded_image is not None:
             img = Image.open(uploaded_image)
-            st.image(img, caption="Uploaded Image", use_column_width=True)
+            # st.image(img, caption="Uploaded Image", use_column_width=True)
             st.write("")
             st.write("Classifying...")
             
             prediction = predict_image(img)
 
             print(prediction)
+
+            if prediction == 1:
+                st.write("The image is **not AI-generated**.")
+            else:
+                st.write("The image is **AI-generated**.")
             # if prediction > 0.5:
             #     st.write("The image is **AI-generated**.")
             # else:
