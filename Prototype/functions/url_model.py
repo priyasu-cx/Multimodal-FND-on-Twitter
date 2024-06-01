@@ -18,7 +18,7 @@ def predict_url(url):
 
     # Load Model
     url_model_path = os.path.join(
-        os.path.dirname(__file__), "..", "models", "url_xgboost_model.pkl"
+        os.path.dirname(__file__), "..", "models", "url_xgboost_model_v2.pkl"
     )
 
     # url_xgboost_model.pkl

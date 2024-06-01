@@ -7,6 +7,7 @@ from datetime import datetime
 import requests
 from urllib.parse import urlsplit, urlparse
 import ipaddress
+from datetime import datetime, timedelta
 
 
 # 1.Domain of the URL (Domain)
@@ -19,11 +20,14 @@ def getDomain(url):
 
 # 2.Checks for IP address in URL (Have_IP)
 def havingIP(url):
+    domain = urlparse(url).netloc
+    # print("Domain:",domain)
     try:
-        ipaddress.ip_address(url)
+        ipaddress.ip_address(domain)
         ip = 1
     except:
         ip = 0
+    # print("Have IP:",ip)
     return ip
 
 
@@ -111,73 +115,84 @@ def prefixSuffix(url):
 
 
 # 12.Web traffic (Web_Traffic)
-def web_traffic(domain):
+def web_traffic(url):
     try:
         # Filling the whitespaces in the URL if any
-        domain = urllib.parse.quote(domain)
-
-        print(domain)
+        url = urllib.parse.quote(url)
 
         # {"domain":"oracle.com","rank":77}
-        # res = requests.get("https://api.webfinery.com/ranks?domain=" + domain + "&key=d8d6c0d980624c67802c9b1c0ab7282b")
-        res = requests.get("https://api.visitrank.com/ranks/" + domain)
-        
+        res = requests.get("https://api.visitrank.com/ranks/" + url)
         rank = res.json()["rank"]
-        print("Rank: ", rank)
+        # print("Rank:",rank)
 
     except TypeError:
-        return -1
-    if rank > 100000:
         return 1
-    elif rank == 0:
+    if rank > 100000 | rank == 0:
         return 1
     else:
         return 0
 
 
 # 13.Survival time of domain: The difference between termination time and creation time (Domain_Age)
-def domainAge(domain_name):
-    creation_date = domain_name.creation_date
-    expiration_date = domain_name.expiration_date
-    if isinstance(creation_date, str) or isinstance(expiration_date, str):
-        try:
-            creation_date = datetime.strptime(creation_date, "%Y-%m-%d")
-            expiration_date = datetime.strptime(expiration_date, "%Y-%m-%d")
-        except:
-            return 1
-    if (expiration_date is None) or (creation_date is None):
-        return 1
-    elif (type(expiration_date) is list) or (type(creation_date) is list):
-        return 1
-    else:
-        ageofdomain = abs((expiration_date - creation_date).days)
-        if (ageofdomain / 30) > 6:
-            age = 1
+def domainAge(domain):
+    try:
+        # Query WHOIS information for the domain
+        domain_info = whois.whois(domain)
+
+        # Extract the creation and expiration dates
+        creation_date = domain_info.creation_date
+        expiration_date = domain_info.expiration_date
+
+        # Handle cases where creation_date or expiration_date are lists
+        if isinstance(creation_date, list):
+            creation_date = creation_date[0]
+        if isinstance(expiration_date, list):
+            expiration_date = expiration_date[0]
+
+        # Check if both dates are available
+        if creation_date and expiration_date:
+            # Calculate the domain age
+            domain_age = expiration_date - creation_date
+
+            # Check if the domain age is less than 12 months (365 days)
+            if domain_age < timedelta(days=365):
+                return 1  # Phishing
+            else:
+                return 0  # Legitimate
         else:
-            age = 0
-    return age
+            print("Creation date or expiration date is missing.")
+            return 1  # Error in fetching necessary dates
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return 1  # Error in fetching WHOIS information
 
 
 # 14.End time of domain: The difference between termination time and current time (Domain_End)
-def domainEnd(domain_name):
-    expiration_date = domain_name.expiration_date
-    if isinstance(expiration_date, str):
-        try:
-            expiration_date = datetime.strptime(expiration_date, "%Y-%m-%d")
-        except:
-            return 1
-    if expiration_date is None:
-        return 1
-    elif type(expiration_date) is list:
-        return 1
-    else:
-        today = datetime.now()
-        end = abs((expiration_date - today).days)
-        if (end / 30) > 6:
-            end = 0
+def domainEnd(domain):
+    try:
+        # Query WHOIS information for the domain
+        domain_info = whois.whois(domain)
+
+        # Extract the expiration date
+        expiration_date = domain_info.expiration_date
+
+        if isinstance(expiration_date, list):
+            expiration_date = expiration_date[
+                0
+            ]  # Handle cases where expiration_date is a list
+
+        # Calculate the remaining time until expiration
+        current_date = datetime.now()
+        remaining_time = expiration_date - current_date
+
+        # Check if the remaining time is less than 6 months (180 days)
+        if remaining_time < timedelta(days=180):
+            return 1  # Phishing
         else:
-            end = 1
-    return end
+            return 0  # Legitimate
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return 1  # Error in fetching WHOIS information
 
 
 # 15. IFrame Redirection (iFrame)
@@ -207,10 +222,23 @@ def rightClick(response):
     if response == "":
         return 1
     else:
-        if re.findall(r"event.button ?== ?2", response.text):
-            return 0
-        else:
-            return 1
+        try:
+            if response.status_code == 200:
+                page_source = response.text
+
+                # Search for the specific event pattern in the page source
+                if "event.button==2" in page_source or "oncontextmenu" in page_source:
+                    return 1  # Phishing
+                else:
+                    return 0  # Legitimate
+            else:
+                print(
+                    f"Failed to retrieve the webpage. Status code: {response.status_code}"
+                )
+                return 1  # Error in fetching webpage
+        except requests.RequestException as e:
+            print(f"An error occurred: {e}")
+            return 1  # Error in fetching webpage
 
 
 # 18.Checks the number of forwardings (Web_Forwards)
@@ -230,21 +258,24 @@ def get_domain_from_url(url):
     # print(domain)
     return domain
 
+
 # URL Feature Extraction
 # Function to extract features
 def featureExtraction(url):
 
     features = []
+
+    # features.append(url)  # 1
     # Address bar based features (10)
-    # features.append(getDomain(url))
-    features.append(havingIP(url))
-    features.append(haveAtSign(url))
-    features.append(getLength(url))
-    features.append(getDepth(url))
-    features.append(redirection(url))
-    features.append(httpDomain(url))
-    features.append(tinyURL(url))
-    features.append(prefixSuffix(url))
+    # features.append(getDomain(url))  # 2
+    features.append(havingIP(url))  # 3
+    features.append(haveAtSign(url))  # 4
+    features.append(getLength(url))  # 5
+    features.append(getDepth(url))  # 6
+    features.append(redirection(url))  # 7
+    features.append(httpDomain(url))  # 8
+    features.append(tinyURL(url))  # 9
+    features.append(prefixSuffix(url))  # 10
 
     # Domain based features (4)
     dns = 0
@@ -256,17 +287,19 @@ def featureExtraction(url):
     except:
         dns = 1
 
-    # print(dns)
+    # print("DNS", dns)
 
-    features.append(dns)
+    features.append(dns)  # 11
 
     domain = get_domain_from_url(url)
 
-    features.append(web_traffic(domain))
-    features.append(1 if dns == 1 else domainAge(domain_name))
-    features.append(1 if dns == 1 else domainEnd(domain_name))
+    # print("Domain:", domain)
 
-    print(url)
+    features.append(web_traffic(domain))  # 12
+    features.append(1 if dns == 1 else domainAge(domain))  # 13
+    features.append(1 if dns == 1 else domainEnd(domain))  # 14
+
+    # print(url)
 
     # HTML & Javascript based features (4)
     try:
@@ -278,13 +311,14 @@ def featureExtraction(url):
     except:
         response = ""
 
-    features.append(iframe(response))
-    features.append(mouseOver(response))
-    features.append(rightClick(response))
-    features.append(forwarding(response))
-    # features.append(label)
+    features.append(iframe(response))  # 15
+    features.append(mouseOver(response))  # 16
+    features.append(rightClick(response))  # 17
+    features.append(forwarding(response))  # 18
+    # features.append(label)  # 19
 
     return features
+
 
 # Test the function
 # url = "https://www.google.com"
