@@ -2,6 +2,7 @@ import streamlit as st
 from functions.fnd_model import predict_fnd
 from functions.url_model import predict_url
 from functions.image_model import predict_image
+from functions.classify_fnd import getSemantics
 from pysafebrowsing import SafeBrowsing
 from dotenv import load_dotenv
 import os
@@ -58,12 +59,15 @@ def main():
     # Add text input for URL
     url = st.text_input("URL", "Type here")
 
+
+    st.subheader("Semantics Classifier")
+    # Add text input for URL
+    semantics = st.text_input("Classify Tweet", "Type here")
+
     # Add button to generate report
     if st.button("Generate Report"):
         # Perform fake news detection and generate report
-        # Replace this with your own code to generate the report
         fnd_report = predict_fnd(tweet, exclusivity, bot_score, cred_score, label_score)
-        # url_report = predict_url(url)
 
         # Check URL from Safe Browsing API
         if checkURL(url) == 1:
@@ -95,10 +99,26 @@ def main():
                 st.write("The image is **not AI-generated**.")
             else:
                 st.write("The image is **AI-generated**.")
-            # if prediction > 0.5:
-            #     st.write("The image is **AI-generated**.")
+        
+        # Semantics Classifier Report
+        getSemantics(semantics, bot_score, checkURL(url))
+
+        # Disinformation, Misinformation, Sattire, Spam
+        # if fnd_report == 1:
+            # if bot_score >= 0.5:
+            #     st.write("This tweet is classified as **Disinformation**.")
             # else:
-            #     st.write("The image is **not AI-generated**.")
+            #     result = classify_FND(fnd_report, tweet)
+            #     if result == 1:
+            #         st.write("This tweet is classified as **Satire**.")
+            #     elif result == 0:
+            #         st.write("This tweet is classified as **Spam**.")
+            #     else:
+            #         st.write("This tweet is classified as **Misinformation**.")
+            # getSemantics(semantics, bot_score, checkURL(url))
+
+            # st.write("Semantics Classifier Report generated!")
+            # st.write("The tweet is classified as **Yet to be decided**.")
 
 
 if __name__ == "__main__":
