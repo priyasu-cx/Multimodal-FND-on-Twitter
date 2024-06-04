@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_elements import elements, mui, html
 from streamlit_elements import nivo
 import pandas as pd
-from app import reset
+from app import reset, round_corners
 from functions.url_model import predict_url
 
 def pie_chart_values(fnd_report, url_report, image_report):
@@ -115,7 +115,8 @@ def report():
                 image_uploaded = st.session_state.image_uploaded
 
                 if image_uploaded:
-                    st.image(uploaded_image, use_column_width=True)
+                    rounded_image = round_corners(uploaded_image, 20)
+                    st.image(rounded_image, use_column_width=True)
 
                 st.write("<br>", unsafe_allow_html=True)
 

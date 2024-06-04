@@ -5,9 +5,8 @@ from functions.classify_fnd import getSemantics
 from pysafebrowsing import SafeBrowsing
 from dotenv import load_dotenv
 import os
-from PIL import Image
+from PIL import Image, ImageOps, ImageDraw
 import re
-
 
 def reset():
     st.session_state.image_uploaded = False
@@ -18,6 +17,14 @@ def reset():
     st.session_state.image_report = None
     st.session_state.image = None
     st.session_state.tweet = None
+
+def round_corners(image, radius):
+    mask = Image.new('L', image.size, 0)
+    draw = ImageDraw.Draw(mask)
+    draw.rounded_rectangle([(0, 0), image.size], radius=radius, fill=255)
+    result = ImageOps.fit(image, mask.size, centering=(0.5, 0.5))
+    result.putalpha(mask)
+    return result
 
 def checkURL(url):
     # Load API key from .env file
@@ -195,7 +202,8 @@ def main():
 
                 # Display the uploaded image if one is uploaded
                 if st.session_state.image_uploaded:
-                    st.image(st.session_state.uploaded_image, use_column_width=True)
+                    rounded_image = round_corners(Image.open(st.session_state.uploaded_image), 20)
+                    st.image(rounded_image, use_column_width=True)
 
                 st.write("")
 
