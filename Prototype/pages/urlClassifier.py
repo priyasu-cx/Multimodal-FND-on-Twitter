@@ -1,5 +1,6 @@
 import streamlit as st
 from app import checkURL
+from functions.url_model import predict_url
 
 def tweetBodyClassifier():
     st.set_page_config(page_title="URL Classifier", page_icon="🔍", layout="wide", initial_sidebar_state="collapsed")
@@ -18,7 +19,12 @@ def tweetBodyClassifier():
         
         if st.button("Generate Report", type="primary"):
             if url:
-                result = checkURL(url)
+                features = predict_url(url)
+                print("Features:", features[0][0][8])
+                if int(features[0][0][8]):
+                    result = 1
+                else:
+                    result = checkURL(url)
                 print("URL result:", result)
                 st.write("Report generated successfully!")
             else:
@@ -30,7 +36,7 @@ def tweetBodyClassifier():
             st.divider()
 
             if result:
-                st.write("<center><p class=result-fake>The url is classified as: <b>Malicious</b></p><center>", unsafe_allow_html=True)
+                st.write("<center><p class=result-fake>The url is classified as: <br><b>Malicious</b></p><center>", unsafe_allow_html=True)
             elif result == 0:
                 st.write("<center><p class=result-real>The url is classified as: <br><b>Not Malicious</b></p><center>", unsafe_allow_html=True)
 

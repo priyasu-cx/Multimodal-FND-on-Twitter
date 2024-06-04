@@ -55,7 +55,12 @@ def report():
 
     print("Report Scores: ", fnd_report, url_report, image_report)
 
-    
+    features = predict_url(url)
+
+    if int(features[0][0][8]):
+        print("Phishing URL Detected")
+        url_report = 1
+
     #--------------------------------------------------------------------------------------------------------------------------------
 
     # Testing data
@@ -305,7 +310,6 @@ def report():
             st.write(f"<p class=url>🔗 URL:<b> {url}</b></p>", unsafe_allow_html=True)
             st.write("URL Feature Report")
 
-            features = predict_url(url)
             # st.write(features[0][0])
 
             # feature_data = pd.DataFrame(features[0][0], columns=["Feature Value"])
