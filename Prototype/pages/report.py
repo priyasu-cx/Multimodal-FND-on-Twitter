@@ -115,8 +115,8 @@ def report():
                 image_uploaded = st.session_state.image_uploaded
 
                 if image_uploaded:
-                    rounded_image = round_corners(uploaded_image, 20)
-                    st.image(rounded_image, use_column_width=True)
+                    # rounded_image = round_corners(uploaded_image, 20)
+                    st.image(uploaded_image, use_column_width=True)
 
                 st.write("<br>", unsafe_allow_html=True)
 
