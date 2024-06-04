@@ -11,3 +11,4 @@ scipy
 streamlit==1.35.0
 streamlit_elements==0.1.0
 tensorflow==2.15.0
+xgboost
