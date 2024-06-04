@@ -57,8 +57,8 @@ def submit_report(tweet, exclusivity, bot_score, cred_score, label_score, upload
             if checkURL(url) == 1:
                 # st.write("This URL is malicious.")
                 url_report = 1
-            else:
-                # st.write("This URL is not malicious.")
+            # else:
+            #     st.write("This URL is not malicious.")
         
         # Semantics Classifier Report
         if fnd_report == 1: semantics_report = getSemantics(tweet, bot_score, url_report)
@@ -103,7 +103,7 @@ def submit_report(tweet, exclusivity, bot_score, cred_score, label_score, upload
         st.switch_page("pages/report.py")
     else:
         # Display error message
-        st.error("Please enter a tweet body.", )
+        st.error("Please enter a tweet body or upload an image", )
 
     
 
