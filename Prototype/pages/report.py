@@ -55,11 +55,12 @@ def report():
 
     print("Report Scores: ", fnd_report, url_report, image_report)
 
-    features = predict_url(url)
+    if url is not None:
+        features = predict_url(url)
 
-    if int(features[0][0][8]):
-        print("Phishing URL Detected")
-        url_report = 1
+        if int(features[0][0][8]):
+            print("Phishing URL Detected")
+            url_report = 1
 
     #--------------------------------------------------------------------------------------------------------------------------------
 
