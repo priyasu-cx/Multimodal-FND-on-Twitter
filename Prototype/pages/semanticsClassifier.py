@@ -38,7 +38,7 @@ def semanticsClassifier():
             st.write("<center>Results will be displayed here.</center>", unsafe_allow_html=True)
             st.divider()
 
-            if result:
+            if result11:
                 st.write(f"<center><p class=result-real>The tweet is classified as: <br><b class=result-fake>{result11}</b></p><center>", unsafe_allow_html=True)
 
             
