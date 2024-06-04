@@ -161,7 +161,7 @@ def report():
                         if url_report == 0: answer2 = "REAL"
                         else: answer2 = "FAKE"
                     else: answer2 = "NA"
-                    if image_uploaded is not None:
+                    if image_uploaded is True:
                         if image_report == 0: answer3 = "REAL"
                         else: answer3 = "FAKE"
                     else: answer3 = "NA"
