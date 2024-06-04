@@ -153,12 +153,18 @@ def report():
                     if semantics_report != 0:
                         st.write(f"<center class=type>The Fake Content has been classified as <br><b>{semantics_report}</b></center><br><br>", unsafe_allow_html=True)
 
-                    if fnd_report == 0: answer1 = "TRUE" 
-                    else: answer1 = "FALSE"
-                    if url_report == 0: answer2 = "TRUE"
-                    else: answer2 = "FALSE"
-                    if image_report == 0: answer3 = "TRUE"
-                    else: answer3 = "FALSE"
+                    if tweet is not None:
+                        if fnd_report == 0: answer1 = "REAL" 
+                        else: answer1 = "FAKE"
+                    else: answer1 = "NA"
+                    if url != -1:
+                        if url_report == 0: answer2 = "REAL"
+                        else: answer2 = "FAKE"
+                    else: answer2 = "NA"
+                    if image_uploaded is not None:
+                        if image_report == 0: answer3 = "REAL"
+                        else: answer3 = "FAKE"
+                    else: answer3 = "NA"
 
                     # Make a table
                     with elements("mui_table"):
