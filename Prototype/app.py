@@ -27,8 +27,10 @@ def checkURL(url):
     s = SafeBrowsing(api_key)
     r = s.lookup_urls([url])
     if r[url]["malicious"]:
+        print("This URL is malicious.")
         return 1
     else:
+        print("This URL is not malicious.")
         return 0
     
 def fetchURL(tweet):

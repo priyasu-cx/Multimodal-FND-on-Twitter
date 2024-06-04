@@ -1,5 +1,5 @@
 import streamlit as st
-from app import predict_url
+from app import checkURL
 
 def tweetBodyClassifier():
     st.set_page_config(page_title="URL Classifier", page_icon="🔍", layout="wide", initial_sidebar_state="collapsed")
@@ -18,7 +18,8 @@ def tweetBodyClassifier():
         
         if st.button("Generate Report", type="primary"):
             if url:
-                result = predict_url(url)
+                result = checkURL(url)
+                print("URL result:", result)
                 st.write("Report generated successfully!")
             else:
                 st.error("Please enter a URL.", )

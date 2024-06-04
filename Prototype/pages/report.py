@@ -43,23 +43,23 @@ def report():
     st.divider()
     
     # Load the data
-    # tweet = st.session_state.tweet
-    # uploaded_image = st.session_state.image_uploaded
+    tweet = st.session_state.tweet
+    uploaded_image = st.session_state.image_uploaded
 
-    # fnd_report = st.session_state.fnd_report
-    # url_report = st.session_state.url_report
-    # semantics_report = st.session_state.semantics_report
-    # image_report = st.session_state.image_report
+    fnd_report = st.session_state.fnd_report
+    url_report = st.session_state.url_report
+    semantics_report = st.session_state.semantics_report
+    image_report = st.session_state.image_report
     #--------------------------------------------------------------------------------------------------------------------------------
 
     # Testing data
-    tweet = "🌟 Prosperity isn't just about financial success; it's the abundance of joy, love, and fulfillment in every aspect of life. When gratitude becomes your default state, abundance follows. Here's to a life rich in experiences, growth, and meaningful connections! ✨ #Prosperity #Abundance #Gratitude"
-    uploaded_image = st.session_state.image_uploaded
+    # tweet = "🌟 Prosperity isn't just about financial success; it's the abundance of joy, love, and fulfillment in every aspect of life. When gratitude becomes your default state, abundance follows. Here's to a life rich in experiences, growth, and meaningful connections! ✨ #Prosperity #Abundance #Gratitude"
+    # uploaded_image = st.session_state.image_uploaded
 
-    fnd_report = 1
-    url_report = 1
-    semantics_report = "Misinformation"
-    image_report = 1
+    # fnd_report = 1
+    # url_report = 1
+    # semantics_report = "Misinformation"
+    # image_report = 1
 
     #--------------------------------------------------------------------------------------------------------------------------------
 
