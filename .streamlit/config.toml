@@ -1,0 +1,6 @@
+[server]
+enableXsrfProtection=false
+
+[theme]
+base="dark"
+primaryColor="#184ff7"
