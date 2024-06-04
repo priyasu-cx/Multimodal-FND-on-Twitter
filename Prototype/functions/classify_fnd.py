@@ -14,7 +14,7 @@ def getSemantics(tweet_body, bot_score, phishingPresent):
     print("Tweet:")
     print(tweet_body + "\n")
 
-    print("Tweet: ", tweet_body + "Bot Score: ", bot_score, "Phishing Present: ", phishingPresent + "\n")
+    # print("Tweet: ", tweet_body + "Bot Score: ", bot_score, "Phishing Present: ", phishingPresent + "\n")
 
     os.write(1, f"Tweet: {tweet_body}\n".encode()) 
     os.write(1, f"Bot Score: {bot_score}\n".encode())
