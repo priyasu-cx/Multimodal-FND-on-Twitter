@@ -1,6 +1,7 @@
 from .checkSpam import *
 from .checkSattire import *
 import streamlit as st
+import os
 
 """
 This function calculates the final result that'll come out of the semantics classifier,
@@ -12,7 +13,7 @@ def getSemantics(tweet_body, bot_score, phishingPresent):
     print("Tweet:")
     print(tweet_body + "\n")
 
-    st.write("Tweet: ", tweet_body + "Bot Score: ", bot_score, "Phishing Present: ", phishingPresent + "\n")
+    os.write("Tweet: ", tweet_body + "Bot Score: ", bot_score, "Phishing Present: ", phishingPresent + "\n")
 
     # Possible results from this classifier
     results = ["misinformation", "disinformation", "spam", "satire"]
@@ -26,18 +27,18 @@ def getSemantics(tweet_body, bot_score, phishingPresent):
 
     # Final Result will be disinformation if user is a bot
     if isBot:
-        st.write("User is a bot, who has shared false news")
+        os.write("User is a bot, who has shared false news")
         final_result = results[1]
         print(final_result)
         return final_result
     else:
         if phishingPresent:
-            st.write("Phishing URL detected. User is not a bot. Disinformation.")
+            os.write("Phishing URL detected. User is not a bot. Disinformation.")
             final_result = results[0]
             print(final_result)
             return final_result
 
-    st.write(
+    os.write(
         "User is not a bot. Not disinformation.\nChecking for type of misinformation...\n"
     )
 
@@ -50,17 +51,17 @@ def getSemantics(tweet_body, bot_score, phishingPresent):
     # If either one of them is true(1)     => that will the type of misinfo
     # If both of them are true(1)/false(0) => we just say that it's a misinformation
     if (isSpam == 1 and isSatire == 1) or (isSpam == 0 and isSatire == 0):
-        st.write("Couldn't cleary detect whether spam or satire")
+        os.write("Couldn't cleary detect whether spam or satire")
         final_result = results[0]
 
     elif isSpam == 1:
-        st.write("Tweet could be a potential spam!!".upper())
+        os.write("Tweet could be a potential spam!!".upper())
         final_result = results[2]
     else:
-        st.write("Tweet could be a potential satire!!".upper())
+        os.write("Tweet could be a potential satire!!".upper())
         final_result = results[3]
 
-    st.write("Final outcome: " + final_result)
+    os.write("Final outcome: " + final_result)
 
     return final_result
 # Testing the function
