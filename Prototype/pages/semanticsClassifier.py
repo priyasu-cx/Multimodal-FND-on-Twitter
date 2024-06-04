@@ -9,7 +9,7 @@ def semanticsClassifier():
 
     col11, col21 = st.columns([2, 1], gap="medium")
 
-    result = None
+    result11 = None
 
 
     with col11:
