@@ -38,13 +38,13 @@ def getSemantics(tweet_body, bot_score, phishingPresent):
         final_result = results[1]
         print(final_result)
         return final_result
-    else:
-        if phishingPresent:
-            print("Phishing URL detected. User is not a bot. Disinformation.")
-            os.write(1, "Phishing URL detected. User is not a bot. Disinformation.\n".encode())
-            final_result = results[0]
-            print(final_result)
-            return final_result
+    # else:
+    #     if phishingPresent:
+    #         print("Phishing URL detected. User is not a bot. Disinformation.")
+    #         os.write(1, "Phishing URL detected. User is not a bot. Disinformation.\n".encode())
+    #         final_result = results[0]
+    #         print(final_result)
+    #         return final_result
 
     print(
         "User is not a bot. Not disinformation.\nChecking for type of misinformation...\n"
