@@ -55,19 +55,19 @@ def submit_report(tweet, exclusivity, bot_score, cred_score, label_score, upload
         if url != -1:
             # Check URL from Safe Browsing API
             if checkURL(url) == 1:
-                st.write("This URL is malicious.")
+                # st.write("This URL is malicious.")
                 url_report = 1
             else:
-                st.write("This URL is not malicious.")
+                # st.write("This URL is not malicious.")
         
         # Semantics Classifier Report
         if fnd_report == 1: semantics_report = getSemantics(tweet, bot_score, url_report)
 
         # Display the report
-        if fnd_report == 1:
-            st.write("This tweet is fake news.")
-        else:
-            st.write("This tweet is not fake news.")
+        # if fnd_report == 1:
+        #     st.write("This tweet is fake news.")
+        # else:
+        #     st.write("This tweet is not fake news.")
 
         # Display the image report
         if uploaded_image is not None:
@@ -78,14 +78,19 @@ def submit_report(tweet, exclusivity, bot_score, cred_score, label_score, upload
             
             prediction = predict_image(img)
 
-            print(prediction)
-
-            if prediction == 1:
-                st.write("The image is **not AI-generated**.")
-            else:
-                st.write("The image is **AI-generated**.")
+            
+            # if prediction == 1:
+            #     st.write("The image is **not AI-generated**.")
+            # else:
+            #     st.write("The image is **AI-generated**.")
 
         # st.page_link("pages/report.py", label="Tweet Report", icon="📄")
+        print("FND Prediction:", fnd_report)
+        print("Image Prediction:", prediction)
+        print("URL Prediction:", url_report)
+        print("Semantics Prediction:", semantics_report)
+
+
         # Load data into session state
         st.session_state.fnd_report = fnd_report
         st.session_state.url_report = url_report
