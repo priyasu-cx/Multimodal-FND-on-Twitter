@@ -57,7 +57,7 @@ def submit_report(tweet, exclusivity, bot_score, cred_score, label_score, upload
 
         # print("URL:", url)
         url_report = 0
-        semantics_report = 0
+        semantics_report = None
         image_report = 0
         prediction = 0
 

@@ -53,9 +53,9 @@ def report():
     semantics_report = st.session_state.semantics_report
     image_report = st.session_state.image_report
 
-    print("Report Scores: ", fnd_report, url_report, image_report)
+    print("Report Scores 11: ", fnd_report, url_report, image_report)
 
-    if url is not None:
+    if url != -1:
         features = predict_url(url)
 
         if int(features[0][0][8]):
@@ -310,6 +310,8 @@ def report():
         if url != -1: 
             st.write(f"<p class=url>🔗 URL:<b> {url}</b></p>", unsafe_allow_html=True)
             st.write("URL Feature Report")
+
+            
 
             # st.write(features[0][0])
 

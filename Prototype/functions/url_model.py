@@ -2,6 +2,7 @@ from functions.url_feature_extraction import featureExtraction
 import pickle
 import os
 import numpy as np
+import streamlit as st
 
 
 def predict_url(url):
