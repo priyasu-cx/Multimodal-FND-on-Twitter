@@ -67,6 +67,8 @@ def report():
     score = calculate_score(fnd_report, url_report, image_report)
 
     pie = pie_chart_values(fnd_report, url_report, image_report)
+
+    # print("Report Scores: ", fnd_report, url_report, image_report)
     # print(pie)
 
     # Columns for other features
@@ -145,8 +147,8 @@ def report():
                 with elements("nivo_pie_chart"):
 
                     DATA = [
-                    { "id": "URL", "label": "URL", "value": round(pie[0],2), "color": "hsl(309, 70%, 50%)" },
-                    { "id": "Tweet Body", "label": "Tweet Body", "value": round(pie[1],2), "color": "hsl(229, 70%, 50%)" },
+                    { "id": "URL", "label": "URL", "value": round(pie[1],2), "color": "hsl(309, 70%, 50%)" },
+                    { "id": "Tweet Body", "label": "Tweet Body", "value": round(pie[0],2), "color": "hsl(229, 70%, 50%)" },
                     { "id": "Image", "label": "Image", "value": round(pie[2],2), "color": "hsl(78, 70%, 50%)" },
                     # { "id": "scala", "label": "scala", "value": 254, "color": "hsl(278, 70%, 50%)" },
                     # { "id": "stylus", "label": "stylus", "value": 598, "color": "hsl(273, 70%, 50%)" }

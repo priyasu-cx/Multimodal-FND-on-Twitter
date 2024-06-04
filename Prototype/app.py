@@ -44,7 +44,7 @@ def fetchURL(tweet):
 def submit_report(tweet, exclusivity, bot_score, cred_score, label_score, uploaded_image):
     # Perform fake news detection and generate report
     if tweet or uploaded_image is not None:
-        fnd_report = predict_fnd(tweet, exclusivity, bot_score, cred_score, label_score)
+        fnd_report = int(predict_fnd(tweet, exclusivity, bot_score, cred_score, label_score))
         url = fetchURL(tweet)
 
         print("URL:", url)
@@ -208,12 +208,12 @@ def main():
         # Add text input
         with col1:
 
-            exclusivity = st.number_input("Exclusivity", step=1e-6, format="%.2f")
-            bot_score = st.number_input("Bot Score", step=1e-6, format="%.2f")
+            exclusivity = st.number_input("Exclusivity", step=1, max_value=1, min_value=0)
+            bot_score = st.number_input("Bot Score", step=1e-5, format="%.5f")
 
         with col2:
-            cred_score = st.number_input("Credibility Score", step=1e-6, format="%.2f")
-            label_score = st.number_input("5 Label Score", step=1e-6, format="%.2f")
+            cred_score = st.number_input("Credibility Score", step=1e-5, format="%.6f")
+            label_score = st.number_input("5 Label Score", step=1, max_value=4, min_value=0)
 
         # st.subheader("Image Upload")
         # Add image upload
