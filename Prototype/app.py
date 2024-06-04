@@ -8,6 +8,7 @@ import os
 from PIL import Image, ImageOps, ImageDraw
 import re
 
+
 def reset():
     st.session_state.image_uploaded = False
     st.session_state.uploaded_image = None
@@ -57,6 +58,7 @@ def submit_report(tweet, exclusivity, bot_score, cred_score, label_score, upload
         # print("URL:", url)
         url_report = 0
         semantics_report = 0
+        image_report = 0
         prediction = 0
 
         if url != -1:
@@ -116,9 +118,10 @@ def main():
     reset()
     # Set title and color theme
     st.set_page_config(
-        page_title="Fake News Detection on Twitter",
+        page_title="Home | Fake News Detection Prototype",
         layout="wide",
         initial_sidebar_state="auto",
+        page_icon="🏡",
     )
 
     # Set title
@@ -247,33 +250,6 @@ def main():
 
         if tc2.button("Reset"):
             reset()
-        
-
-
-    
-
-
-
-
-    
-
-        # Disinformation, Misinformation, Sattire, Spam
-        # if fnd_report == 1:
-            # if bot_score >= 0.5:
-            #     st.write("This tweet is classified as **Disinformation**.")
-            # else:
-            #     result = classify_FND(fnd_report, tweet)
-            #     if result == 1:
-            #         st.write("This tweet is classified as **Satire**.")
-            #     elif result == 0:
-            #         st.write("This tweet is classified as **Spam**.")
-            #     else:
-            #         st.write("This tweet is classified as **Misinformation**.")
-            # getSemantics(semantics, bot_score, checkURL(url))
-
-            # st.write("Semantics Classifier Report generated!")
-            # st.write("The tweet is classified as **Yet to be decided**.")
-
 
 if __name__ == "__main__":
     main()
