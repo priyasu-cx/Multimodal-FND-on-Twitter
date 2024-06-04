@@ -31,9 +31,9 @@ def tweetBodyClassifier():
             st.write("<center>Results will be displayed here.</center>", unsafe_allow_html=True)
             st.divider()
 
-            if result:
+            if result == 0:
                 st.write("<center><p class=result-fake>The image is classified as: <b>Fake</b></p><center>", unsafe_allow_html=True)
-            elif result == 0:
+            elif result == 1:
                 st.write("<center><p class=result-real>The image is classified as: <br><b>Real</b></p><center>", unsafe_allow_html=True)
 
             

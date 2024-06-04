@@ -52,6 +52,8 @@ def report():
     url_report = st.session_state.url_report
     semantics_report = st.session_state.semantics_report
     image_report = st.session_state.image_report
+
+
     #--------------------------------------------------------------------------------------------------------------------------------
 
     # Testing data
@@ -116,11 +118,11 @@ def report():
 
     with main_col1:
         
-        if fnd_report == 0 and url_report == 0 and image_report == 0:
+        if fnd_report == 0 and url_report == 0 and image_report == 1:
             with st.container(border=True):
                 if score < 10: st.write("<center class=result-fake>Fake News</center>", unsafe_allow_html=True)
                 else: st.write("<center class=result-real>Real News</center>", unsafe_allow_html=True)
-                st.write(f'<center class="rating">{score:.2f}/10</center>', unsafe_allow_html=True)
+                st.write(f'<center class="rating">10/10</center>', unsafe_allow_html=True)
                 st.write("<center class=caption>Quality of Info/ Source</center>", unsafe_allow_html=True)
                 st.divider()
 
@@ -262,7 +264,7 @@ def report():
                 </style>
                 """, unsafe_allow_html=True
             )
-    if fnd_report == 0 and url_report == 0 and image_report == 0:
+    if fnd_report == 0 and url_report == 0 and image_report == 1:
         None
     else:
         print("URL func: ", url)
