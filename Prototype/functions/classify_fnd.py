@@ -53,7 +53,7 @@ def getSemantics(tweet_body, bot_score, phishingPresent):
 
     print("Final outcome: " + final_result)
 
-    return 0
+    return final_result
 # Testing the function
 # tweet_body= "Hurry!!! Limited period offer: checkout this link @@$www.urlcoms.xyxz"  # spam
 # tweet_body= "I was happy that I was late to class. Anyways i'm offering a discount on my time management courses. Check it out here: bitly.com"  # spam
