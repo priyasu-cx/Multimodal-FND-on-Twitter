@@ -17,13 +17,15 @@ def semanticsClassifier():
 
         tc1, tc2 = st.columns(2)
         with tc2:
-            url_report = st.number_input("URL Check", step=1, max_value=1, min_value=0)
+            # url_report = st.number_input("URL Check", step=1, max_value=1, min_value=0)
+            url_report = st.selectbox("URL Check", [True, False])
         with tc1:
             bot_score = st.number_input("Bot Score", step=1e-5, format="%.5f")
         
         st.write("")
         if st.button("Generate Report", type="primary"):
             if tweet:
+                print("URL Report:", url_report)
                 result = getSemantics(tweet, bot_score, url_report)
                 st.write("Report generated successfully!")
             else:
@@ -35,7 +37,7 @@ def semanticsClassifier():
             st.divider()
 
             if result:
-                st.write(f"<center><p class=result-real>The tweet is classified as: <b class=result-fake>{result}</b></p><center>", unsafe_allow_html=True)
+                st.write(f"<center><p class=result-real>The tweet is classified as: <br><b class=result-fake>{result}</b></p><center>", unsafe_allow_html=True)
 
             
     if st.button("Back to Home"):
