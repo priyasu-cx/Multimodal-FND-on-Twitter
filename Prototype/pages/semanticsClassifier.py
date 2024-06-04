@@ -18,18 +18,18 @@ def semanticsClassifier():
         tc1, tc2 = st.columns(2)
         with tc2:
             # url_report = st.number_input("URL Check", step=1, max_value=1, min_value=0)
-            url_report = st.selectbox("URL Check", [True, False])
+            url_check1 = st.selectbox("URL Check", [True, False])
         with tc1:
-            bot_score = st.number_input("Bot Score", step=1e-5, format="%.5f")
+            bot_score1 = st.number_input("Bot Score", step=1e-5, format="%.5f")
         
         st.write("")
         if st.button("Generate Report", type="primary"):
             if tweet:
-                print("URL Report:", type(url_report), url_report)
-                st.write("URL Report:", url_report)
-                result = getSemantics(tweet, bot_score, url_report)
+                print("URL Report:", type(url_check1), url_check1)
+                st.write("URL Report:", url_check1)
+                result11 = getSemantics(tweet, bot_score1, url_check1)
                 st.write("Report generated successfully!")
-                st.write("Result:", result)
+                st.write("Result:", result11)
             else:
                 st.error("Please enter a Tweet.", )
 
@@ -39,7 +39,7 @@ def semanticsClassifier():
             st.divider()
 
             if result:
-                st.write(f"<center><p class=result-real>The tweet is classified as: <br><b class=result-fake>{result}</b></p><center>", unsafe_allow_html=True)
+                st.write(f"<center><p class=result-real>The tweet is classified as: <br><b class=result-fake>{result11}</b></p><center>", unsafe_allow_html=True)
 
             
     if st.button("Back to Home"):
