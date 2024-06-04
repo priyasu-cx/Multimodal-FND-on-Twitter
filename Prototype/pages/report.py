@@ -45,7 +45,7 @@ def report():
     
     # Load the data
     tweet = st.session_state.tweet
-    uploaded_image = st.session_state.image_uploaded
+    uploaded_image = st.session_state.uploaded_image
     url = st.session_state.url
 
     fnd_report = st.session_state.fnd_report
@@ -130,8 +130,6 @@ def report():
         else:
             tc1, tc2 = st.columns([1,2])
 
-            
-
             with tc1:
                 with st.container(border=True):
                     if score < 10: st.write("<center class=result-fake>Fake News</center>", unsafe_allow_html=True)
@@ -140,8 +138,8 @@ def report():
                     st.write("<center class=caption>Quality of Info/ Source</center>", unsafe_allow_html=True)
                     st.divider()
 
-                    st.write(f"<center class=type>The Fake Content has been classified as <br><b>{semantics_report}</b></center><br><br>", unsafe_allow_html=True)
-
+                    if semantics_report != 0:
+                        st.write(f"<center class=type>The Fake Content has been classified as <br><b>{semantics_report}</b></center><br><br>", unsafe_allow_html=True)
 
             with tc2:
 
@@ -267,7 +265,8 @@ def report():
     if fnd_report == 0 and url_report == 0 and image_report == 0:
         None
     else:
-        if url: 
+        print("URL func: ", url)
+        if url != -1: 
             st.write(f"<p class=url>🔗 URL:<b> {url}</b></p>", unsafe_allow_html=True)
             st.write("URL Feature Report")
 

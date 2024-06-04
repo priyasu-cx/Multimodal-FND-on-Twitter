@@ -38,7 +38,7 @@ def fetchURL(tweet):
     urls = re.findall(url_pattern, tweet)
     if urls:
         return urls[0]
-    return 1
+    return -1
 
 def submit_report(tweet, exclusivity, bot_score, cred_score, label_score, uploaded_image):
     # Perform fake news detection and generate report
@@ -47,12 +47,12 @@ def submit_report(tweet, exclusivity, bot_score, cred_score, label_score, upload
         url = fetchURL(tweet)
         st.session_state.url = url
 
-        print("URL:", url)
+        # print("URL:", url)
         url_report = 0
         semantics_report = 0
         prediction = 0
 
-        if url != 1:
+        if url != -1:
             # Check URL from Safe Browsing API
             if checkURL(url) == 1:
                 st.write("This URL is malicious.")
@@ -107,6 +107,7 @@ def submit_report(tweet, exclusivity, bot_score, cred_score, label_score, upload
     
 
 def main():
+    reset()
     # Set title and color theme
     st.set_page_config(
         page_title="Fake News Detection on Twitter",
@@ -188,6 +189,7 @@ def main():
                 # Check if an image has been uploaded
                 if not st.session_state.image_uploaded:
                     uploaded_image = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"], label_visibility="collapsed")
+                    # uploaded_image = Image.open(uploaded_image) if uploaded_image is not None else None
                     if uploaded_image is not None:
                         st.session_state.image_uploaded = True
                         st.session_state.uploaded_image = uploaded_image
@@ -234,7 +236,7 @@ def main():
         # Add button to generate report
         tc1, tc2, tc3 = st.columns([2, 1, 3.5])
         if tc1.button("Generate Report", type="primary"):
-            submit_report(tweet, exclusivity, bot_score, cred_score, label_score, uploaded_image)
+            submit_report(tweet, exclusivity, bot_score, cred_score, label_score, st.session_state.uploaded_image)
 
         if tc2.button("Reset"):
             reset()
