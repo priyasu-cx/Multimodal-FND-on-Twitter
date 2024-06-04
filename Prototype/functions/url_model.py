@@ -33,7 +33,7 @@ def predict_url(url):
     # Perform prediction
     prediction = url_model.predict(features)
 
-    return prediction
+    return [features, prediction]
 
 # Test the function
 # url = "https://www.streamlit.io/"

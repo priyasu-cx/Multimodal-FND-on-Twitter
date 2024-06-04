@@ -3,6 +3,7 @@ from streamlit_elements import elements, mui, html
 from streamlit_elements import nivo
 import pandas as pd
 from app import reset
+from functions.url_model import predict_url
 
 def pie_chart_values(fnd_report, url_report, image_report):
     # Define the weights for each report
@@ -45,6 +46,7 @@ def report():
     # Load the data
     tweet = st.session_state.tweet
     uploaded_image = st.session_state.image_uploaded
+    url = st.session_state.url
 
     fnd_report = st.session_state.fnd_report
     url_report = st.session_state.url_report
@@ -114,7 +116,6 @@ def report():
 
     with main_col1:
         
-
         if fnd_report == 0 and url_report == 0 and image_report == 0:
             with st.container(border=True):
                 if score < 10: st.write("<center class=result-fake>Fake News</center>", unsafe_allow_html=True)
@@ -225,9 +226,20 @@ def report():
                                 }
                             }
                         )
+
+            st.write(":heavy_minus_sign:" * 40) 
+            st.subheader("Detailed Report Summary")
+            st.write(":heavy_minus_sign:" * 40) 
+
+        
+
         st.markdown(
                 """
                 <style>
+                    .url {
+                        font-size: 24px;
+                        color: blue;
+                    }
                     .result-fake {
                         font-size: 24px;
                         font-weight: bold;
@@ -252,6 +264,93 @@ def report():
                 </style>
                 """, unsafe_allow_html=True
             )
+    if fnd_report == 0 and url_report == 0 and image_report == 0:
+        None
+    else:
+        if url: 
+            st.write(f"<p class=url>🔗 URL:<b> {url}</b></p>", unsafe_allow_html=True)
+            st.write("URL Feature Report")
+
+            features = predict_url(url)
+            # st.write(features[0][0])
+
+            # feature_data = pd.DataFrame(features[0][0], columns=["Feature Value"])
+
+            # st.write(feature_data)
+
+            with elements("nivo_charts"):
+
+                DATA = [
+                    { "id": "Have_IP", "value": int(features[0][0][0]) },
+                    { "id": "Have_@", "value": int(features[0][0][1]) },
+                    { "id": "URL_Length", "value": int(features[0][0][2]) },
+                    { "id": "URL_Depth", "value": int(features[0][0][3]) },
+                    { "id": "Redirection", "value": int(features[0][0][4]) },
+                    { "id": "https_Domain", "value": int(features[0][0][5]) },
+                    { "id": "TinyURL", "value": int(features[0][0][6]) },
+                    { "id": "Prefix/Suffix", "value": int(features[0][0][7]) },
+                    { "id": "DNS_Record", "value": int(features[0][0][8]) },
+                    { "id": "Web_Traffic", "value": int(features[0][0][9]) },
+                    { "id": "Domain_Age", "value": int(features[0][0][10]) },
+                    { "id": "Domain_End", "value": int(features[0][0][11]) },
+                    { "id": "iFrame", "value": int(features[0][0][12]) },
+                    { "id": "Mouse_Over", "value": int(features[0][0][13]) },
+                    { "id": "Right_Click", "value": int(features[0][0][14]) },
+                    { "id": "Web_Forwards", "value": int(features[0][0][15]) },
+                ]
+
+                with mui.Box(sx={"height": 300}):
+                    nivo.Bar(
+                        data=DATA,
+                        keys=[ "value"],
+                        indexBy="id",
+                        margin={ "top": 70, "right": 80, "bottom": 40, "left": 80 },
+                        borderColor={ "from": "color" },
+                        gridLabelOffset=36,
+                        dotSize=10,
+                        dotColor={ "theme": "background" },
+                        dotBorderWidth=2,
+                        motionConfig="wobbly",
+                        legends=[
+                            {
+                                "anchor": "top-left",
+                                "direction": "column",
+                                "translateX": -50,
+                                "translateY": -40,
+                                "itemWidth": 80,
+                                "itemHeight": 20,
+                                "itemTextColor": "#999",
+                                "symbolSize": 12,
+                                "symbolShape": "circle",
+                                "effects": [
+                                    {
+                                        "on": "hover",
+                                        "style": {
+                                            "itemTextColor": "#000"
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        theme={
+                            "background": "#FFFFFF",
+                            "textColor": "#31333F",
+                            "tooltip": {
+                                "container": {
+                                    "background": "#FFFFFF",
+                                    "color": "#31333F",
+                                }
+                            }
+                        }
+                    )
+
+
+
+
+        else:
+            st.write("<p class=url>🔗 URL: Not available</p>", unsafe_allow_html=True)
+
+
     st.markdown(
         """
     <style>

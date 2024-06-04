@@ -1,6 +1,5 @@
 import streamlit as st
 from functions.fnd_model import predict_fnd
-from functions.url_model import predict_url
 from functions.image_model import predict_image
 from functions.classify_fnd import getSemantics
 from pysafebrowsing import SafeBrowsing
@@ -46,6 +45,7 @@ def submit_report(tweet, exclusivity, bot_score, cred_score, label_score, upload
     if tweet or uploaded_image is not None:
         fnd_report = int(predict_fnd(tweet, exclusivity, bot_score, cred_score, label_score))
         url = fetchURL(tweet)
+        st.session_state.url = url
 
         print("URL:", url)
         url_report = 0
