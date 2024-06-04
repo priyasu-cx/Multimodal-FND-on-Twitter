@@ -54,11 +54,7 @@ def submit_report(tweet, exclusivity, bot_score, cred_score, label_score, upload
 
         if url != -1:
             # Check URL from Safe Browsing API
-            if checkURL(url) == 1:
-                # st.write("This URL is malicious.")
-                url_report = 1
-            # else:
-            #     st.write("This URL is not malicious.")
+            url_report = checkURL(url)
         
         # Semantics Classifier Report
         if fnd_report == 1: semantics_report = getSemantics(tweet, bot_score, url_report)
@@ -76,7 +72,7 @@ def submit_report(tweet, exclusivity, bot_score, cred_score, label_score, upload
             st.write("")
             st.write("Classifying...")
             
-            prediction = predict_image(img)
+            image_report = 1- predict_image(img)
 
             
             # if prediction == 1:
@@ -89,13 +85,14 @@ def submit_report(tweet, exclusivity, bot_score, cred_score, label_score, upload
         print("Image Prediction:", prediction)
         print("URL Prediction:", url_report)
         print("Semantics Prediction:", semantics_report)
+        print("Report Scores: ", fnd_report, url_report, image_report)
 
 
         # Load data into session state
         st.session_state.fnd_report = fnd_report
         st.session_state.url_report = url_report
         st.session_state.semantics_report = semantics_report
-        st.session_state.image_report = prediction
+        st.session_state.image_report = image_report
 
         if uploaded_image: st.session_state.image = uploaded_image
         if tweet: st.session_state.tweet = tweet
@@ -104,9 +101,6 @@ def submit_report(tweet, exclusivity, bot_score, cred_score, label_score, upload
     else:
         # Display error message
         st.error("Please enter a tweet body or upload an image", )
-
-    
-
     return 0
     
     

@@ -22,6 +22,7 @@ def tweetBodyClassifier():
         if st.button("Generate Report", type="primary"):
             if image:
                 result = predict_image(image)
+                print("Result:", result)
                 st.write("Report generated successfully!")
             else:
                 st.error("Please upload an image.", )
