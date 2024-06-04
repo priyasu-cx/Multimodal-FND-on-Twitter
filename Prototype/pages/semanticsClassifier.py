@@ -26,10 +26,10 @@ def semanticsClassifier():
         if st.button("Generate Report", type="primary"):
             if tweet:
                 print("URL Report:", type(url_check1), url_check1)
-                st.write("URL Report:", url_check1)
+                # st.write("URL Report:", url_check1)
                 result11 = getSemantics(tweet, bot_score1, url_check1)
                 st.write("Report generated successfully!")
-                st.write("Result:", result11)
+                # st.write("Result:", result11)
             else:
                 st.error("Please enter a Tweet.", )
 
