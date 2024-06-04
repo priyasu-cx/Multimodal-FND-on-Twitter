@@ -12,7 +12,7 @@ import os
 # Define function to make prediction
 def predict_image(img):
     print("TensorFlow version:", tf.__version__)
-    model = tf.keras.models.load_model(r'functions\EfficeintNet.h5')
+    model = tf.keras.models.load_model(r'Prototype\functions\EfficeintNet.h5')
     image = img.resize((32, 32))
     processed_img = keras.utils.img_to_array(image)
     processed_img = np.expand_dims(processed_img, axis=0)
