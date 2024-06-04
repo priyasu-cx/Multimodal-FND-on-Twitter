@@ -14,11 +14,17 @@ def semanticsClassifier():
 
     with col11:
         tweet = st.text_area("Enter Tweet Body", height=150)
+
+        tc1, tc2 = st.columns(2)
+        with tc2:
+            url_report = st.number_input("URL Check", step=1, max_value=1, min_value=0)
+        with tc1:
+            bot_score = st.number_input("Bot Score", step=1e-5, format="%.5f")
         
         st.write("")
         if st.button("Generate Report", type="primary"):
             if tweet:
-                result = getSemantics(tweet, 0, 0)
+                result = getSemantics(tweet, bot_score, url_report)
                 st.write("Report generated successfully!")
             else:
                 st.error("Please enter a Tweet.", )
@@ -29,7 +35,7 @@ def semanticsClassifier():
             st.divider()
 
             if result:
-                st.write(f"<center><p class=result-real>The tweet is classified as: <b>{result}</b></p><center>", unsafe_allow_html=True)
+                st.write(f"<center><p class=result-real>The tweet is classified as: <b class=result-fake>{result}</b></p><center>", unsafe_allow_html=True)
 
             
     if st.button("Back to Home"):
@@ -44,11 +50,10 @@ def semanticsClassifier():
             display: none
         }
         .result-fake {
-            color: #ff0000;
-            font-size: 1.5em;
+            color: blue;
+            font-size: 1.3em;
         }
         .result-real {
-            color: blue; 
             font-size: 1.5em;
         }
         

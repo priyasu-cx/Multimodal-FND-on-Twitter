@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_elements import elements, mui, html
 from streamlit_elements import nivo
 import pandas as pd
-from app import reset, round_corners
+from app import reset
 from functions.url_model import predict_url
 
 def pie_chart_values(fnd_report, url_report, image_report):
@@ -146,6 +146,35 @@ def report():
 
                     if semantics_report != 0:
                         st.write(f"<center class=type>The Fake Content has been classified as <br><b>{semantics_report}</b></center><br><br>", unsafe_allow_html=True)
+
+                    if fnd_report == 0: answer1 = "TRUE" 
+                    else: answer1 = "FALSE"
+                    if url_report == 0: answer2 = "TRUE"
+                    else: answer2 = "FALSE"
+                    if image_report == 0: answer3 = "TRUE"
+                    else: answer3 = "FALSE"
+
+                    # Make a table
+                    with elements("mui_table"):
+                        with mui.Table():
+                            with mui.TableHead():
+                                with mui.TableRow():
+                                    mui.TableCell("Feature", align="center")
+                                    mui.TableCell("Value", align="center")
+
+                            with mui.TableBody():
+                                mui.TableRow([
+                                    mui.TableCell("Fake News Detection"),
+                                    mui.TableCell(answer1, align="center")
+                                ])
+                                mui.TableRow([
+                                    mui.TableCell("URL Detection"),
+                                    mui.TableCell(answer2, align="center")
+                                ])
+                                mui.TableRow([
+                                    mui.TableCell("Image Detection"),
+                                    mui.TableCell(answer3, align="center")
+                                ])
 
             with tc2:
 
